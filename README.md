@@ -10,7 +10,7 @@ Main functions:
 
 <u>Resources used:</u>
 <ul>
-<li>Frontend Theme :<a href="https://black-dashboard-laravel.creative-tim.com/docs/getting-started/laravel-setup.html?">Soft UI Dashboard</a></li> 
+<li>Frontend Theme :<a href="https://black-dashboard-laravel.creative-tim.com/docs/getting-started/laravel-setup.html?">Argon Black Dashboard</a></li> 
 <li>Rich Text Editor: <a href="https://summernote.org/">SummerNote</a></li>
 </ul>
 
