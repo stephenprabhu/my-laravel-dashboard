@@ -35,7 +35,7 @@ export default {
                 <div class="col-8">
                     <div class="numbers">
                         <h6 class= "simpleStyle1 mb-0 pb-0" v-text="current_weather"></h6>
-                        <h4 class="font-weight-bolder mb-0 pb-0">{{ current_temp }}&deg;C</h4>
+                        <p class="title">{{ current_temp }}&deg;C</p>
                         <span class=" simpleStyle1 text-blue-200 text-sm" v-text="location_name"></span>
                     </div>
                 </div>

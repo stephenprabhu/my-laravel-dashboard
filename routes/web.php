@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JournalController;
 
@@ -22,7 +23,6 @@ Auth::routes();
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
-		Route::get('icons', ['as' => 'pages.icons', 'uses' => 'App\Http\Controllers\PageController@icons']);
 		Route::get('maps', ['as' => 'pages.maps', 'uses' => 'App\Http\Controllers\PageController@maps']);
 		Route::get('notifications', ['as' => 'pages.notifications', 'uses' => 'App\Http\Controllers\PageController@notifications']);
 		Route::get('rtl', ['as' => 'pages.rtl', 'uses' => 'App\Http\Controllers\PageController@rtl']);
@@ -47,6 +47,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/create-entry',[JournalController::class,'create']);
     Route::post('/update-entry',[JournalController::class,'update']);
     Route::get('/delete-entry/{slug}',[JournalController::class,'destroy']);
+
+    Route::get('/events-page',[EventController::class,'show_page'])->name('events-page');
+    Route::post('/events/add',[EventController::class,'create']);
+    Route::get('/events/all',[EventController::class,'show']);
 
 });
 

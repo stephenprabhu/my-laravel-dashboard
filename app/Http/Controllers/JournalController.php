@@ -51,13 +51,13 @@ class JournalController extends Controller
         $entry=$this->setUpEntryData($request,$updateEntry);
         $entry->updated_date=Carbon::now()->format('Y-m-d');
         $entry->save();
-        return redirect('/journal-entry/'. $entry->slug);
+        return redirect('/journal/entry/'. $entry->slug);
     }
     public function destroy($slug){
         $queryResult=Journal::where('slug',$slug)->get();
         $deleteEntry=$queryResult->first();
         $deleteEntry->delete();
-        return redirect()->route('my-journal');
+        return redirect()->route('journal_entries');
     }
     protected function setUpEntryData($postedData,$entryObject){
         $entryObject->title=$postedData->title;

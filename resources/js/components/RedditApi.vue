@@ -10,7 +10,7 @@ export default {
         $.ajax({url: "https://www.reddit.com/r/marvelstudios.json",
             success: function(result){
                 const headlinesArray=result.data.children;
-                for(let i=0;i<5;i++){
+                for(let i=0;i<6;i++){
                     const currentItem=headlinesArray[i].data;
                     myContext.topDiscussions.push({
                         'headline':currentItem.title,
@@ -37,8 +37,7 @@ export default {
                             <a rel="noopener noreferrer"
                                target="_blank"
                                :href="discussion.link"
-                               class="text-muted"
-                            >{{discussion.headline}}
+                            ><p class="title">{{discussion.headline}}</p>
                             </a>
                         </td>
                     </tr>

@@ -2122,7 +2122,7 @@ __webpack_require__.r(__webpack_exports__);
       success: function success(result) {
         var headlinesArray = result.data.children;
 
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 6; i++) {
           var currentItem = headlinesArray[i].data;
           myContext.topDiscussions.push({
             'headline': currentItem.title,
@@ -2150,8 +2150,100 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      popularMedia: []
+      popularMedia: [],
+      allMedia: []
     };
+  },
+  methods: {
+    changeMedia: function changeMedia(event) {
+      if (event) {
+        var buttonId = event.currentTarget.id;
+
+        if (buttonId == 0) {
+          this.getAllMedia();
+        } else if (buttonId == 1) {
+          this.getOnlyMovies();
+        } else if (buttonId == 2) {
+          this.getOnlyShows();
+        } else {
+          alert('does not match');
+        }
+      } else {
+        alert('no event');
+      }
+    },
+    getAllMedia: function getAllMedia() {
+      var _this = this;
+
+      this.popularMedia = [];
+      var count = 0;
+      this.allMedia.every(function (currentItem) {
+        if (count > 4) {
+          return false;
+        }
+
+        _this.pushDataToArray(currentItem);
+
+        count += 1;
+        return true;
+      });
+    },
+    getOnlyMovies: function getOnlyMovies() {
+      var _this2 = this;
+
+      this.popularMedia = [];
+      var count = 0;
+      this.allMedia.every(function (currentItem) {
+        if (count > 4) {
+          return false;
+        }
+
+        if (currentItem.media_type === "movie") {
+          _this2.pushDataToArray(currentItem);
+
+          count += 1;
+        }
+
+        return true;
+      });
+    },
+    getOnlyShows: function getOnlyShows() {
+      var _this3 = this;
+
+      this.popularMedia = [];
+      var count = 0;
+      this.allMedia.every(function (currentItem) {
+        if (count > 4) {
+          return false;
+        }
+
+        if (currentItem.media_type === "tv") {
+          _this3.pushDataToArray(currentItem);
+
+          count += 1;
+        }
+
+        return true;
+      });
+    },
+    pushDataToArray: function pushDataToArray(mediaItem) {
+      var mediaTitle;
+
+      if (mediaItem.name != null) {
+        mediaTitle = mediaItem.name;
+      } else if (mediaItem.title != null) {
+        mediaTitle = mediaItem.title;
+      } else {
+        mediaTitle = mediaItem.original_name;
+      }
+
+      this.popularMedia.push({
+        title: mediaTitle,
+        overview: mediaItem.overview,
+        media_type: mediaItem.media_type,
+        poster_path: 'https://image.tmdb.org/t/p/w200' + mediaItem.poster_path
+      });
+    }
   },
   mounted: function mounted() {
     var myContext = this;
@@ -2161,17 +2253,8 @@ __webpack_require__.r(__webpack_exports__);
         'api_key': 'ac138a9526a6bd770c0e1200057e1416'
       },
       success: function success(result) {
-        var mediaArray = result.results;
-
-        for (var i = 0; i < 5; i++) {
-          var currentItem = mediaArray[i];
-          myContext.popularMedia.push({
-            title: currentItem.title,
-            overview: currentItem.overview,
-            media_type: currentItem.media_type,
-            poster_path: 'https://image.tmdb.org/t/p/w200' + currentItem.poster_path
-          });
-        }
+        myContext.allMedia = result.results;
+        myContext.getAllMedia();
       }
     });
   }
@@ -20623,7 +20706,6 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticClass: "text-muted",
                       attrs: {
                         rel: "noopener noreferrer",
                         target: "_blank",
@@ -20631,10 +20713,9 @@ var render = function() {
                       }
                     },
                     [
-                      _vm._v(
-                        _vm._s(discussion.headline) +
-                          "\n                        "
-                      )
+                      _c("p", { staticClass: "title" }, [
+                        _vm._v(_vm._s(discussion.headline))
+                      ])
                     ]
                   )
                 ])
@@ -20689,25 +20770,88 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card mt-3 mr-2 p-3" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "ul",
-      { staticClass: "list-group list-group-flush pb-2" },
-      _vm._l(_vm.popularMedia, function(mediaItem) {
-        return _c("li", { staticClass: "list-group-item" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-9" }, [
-              _c("h6", { domProps: { textContent: _vm._s(mediaItem.title) } }),
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-header " }, [
+      _c("div", { staticClass: "row" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c(
+            "div",
+            {
+              staticClass: "btn-group btn-group-toggle float-right",
+              attrs: { "data-toggle": "buttons" }
+            },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-sm btn-primary btn-simple active",
+                  attrs: { id: "0" },
+                  on: { click: _vm.changeMedia }
+                },
+                [
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "d-none d-sm-block d-md-block d-lg-block d-xl-block"
+                    },
+                    [_vm._v("All")]
+                  )
+                ]
+              ),
               _vm._v(" "),
-              _c("p", {
-                staticClass: "text-sm text-muted",
-                domProps: { textContent: _vm._s(mediaItem.overview) }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-3 text-center" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-sm btn-primary btn-simple",
+                  attrs: { id: "1" },
+                  on: { click: _vm.changeMedia }
+                },
+                [
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "d-none d-sm-block d-md-block d-lg-block d-xl-block"
+                    },
+                    [_vm._v("Movies")]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-sm btn-primary btn-simple",
+                  attrs: { id: "2" },
+                  on: { click: _vm.changeMedia }
+                },
+                [
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "d-none d-sm-block d-md-block d-lg-block d-xl-block"
+                    },
+                    [_vm._v("TV Shows")]
+                  )
+                ]
+              )
+            ]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c(
+        "div",
+        { staticClass: "row" },
+        _vm._l(_vm.popularMedia, function(mediaItem) {
+          return _c("div", { staticClass: "col" }, [
+            _c("div", { staticClass: "text-center" }, [
               _c("img", {
                 staticClass: "border-radius-sm",
                 attrs: {
@@ -20716,12 +20860,23 @@ var render = function() {
                   alt: "movie poster"
                 }
               })
-            ])
+            ]),
+            _vm._v(" "),
+            _c("h4", {
+              staticClass: "text-center",
+              staticStyle: { "margin-top": "3%", "margin-bottom": "1%" },
+              domProps: { textContent: _vm._s(mediaItem.title) }
+            }),
+            _vm._v(" "),
+            _c("p", {
+              staticClass: "text-sm text-muted",
+              domProps: { textContent: _vm._s(mediaItem.overview) }
+            })
           ])
-        ])
-      }),
-      0
-    )
+        }),
+        0
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -20729,8 +20884,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("b", [_vm._v("Trending Entertainment")])
+    return _c("div", { staticClass: "col-sm-6 text-left" }, [
+      _c("h5", { staticClass: "card-category" }, [_vm._v("Today")]),
+      _vm._v(" "),
+      _c("h2", { staticClass: "card-title" }, [
+        _vm._v("Trending Entertainment")
+      ])
     ])
   }
 ]
@@ -20766,7 +20925,7 @@ var render = function() {
               domProps: { textContent: _vm._s(_vm.current_weather) }
             }),
             _vm._v(" "),
-            _c("h4", { staticClass: "font-weight-bolder mb-0 pb-0" }, [
+            _c("p", { staticClass: "title" }, [
               _vm._v(_vm._s(_vm.current_temp) + "°C")
             ]),
             _vm._v(" "),

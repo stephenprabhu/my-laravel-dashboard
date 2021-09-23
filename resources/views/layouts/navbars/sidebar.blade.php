@@ -35,10 +35,10 @@
                     </ul>
                 </div>
             </li>
-            <li @if ($pageSlug == 'icons') class="active " @endif>
-                <a href="{{ route('pages.icons') }}">
+            <li @if ($pageSlug == 'events-page') class="active " @endif>
+                <a href="{{ route('events-page') }}">
                     <i class="tim-icons icon-atom"></i>
-                    <p>{{ __('Icons') }}</p>
+                    <p>Events & Tasks</p>
                 </a>
             </li>
             <li @if ($pageSlug == 'maps') class="active " @endif>

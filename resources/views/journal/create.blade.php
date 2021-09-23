@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid mt-5 py-4 ">
-    <form id="myform" role="form" method="POST" action="{{!empty($entry)?'update-entry':'/create-entry'}}">
+    <form id="myform" role="form" method="POST" action="{{!empty($entry)?'/update-entry':'/create-entry'}}">
         @csrf
         <div class="row">
             <div class="col-6">
@@ -13,6 +13,7 @@
                 <input class="form-control m-2" name="date" type="date" placeholder="date" value="{{!empty($entry)?$entry->created_date:''}}">
             </div>
         </div>
+        <input type="hidden" name="slug" value="{{!empty($entry)?$entry->slug:''}}">
         <textarea id="summernote" name="body">{{!empty($entry)?$entry->body:''}}</textarea>
         <button class="btn bg-gradient-info w-10 mt-4 mb-0"  id="submitButton" type="submit">Submit</button>
     </form>

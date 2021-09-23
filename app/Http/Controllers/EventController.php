@@ -40,4 +40,7 @@ class EventController extends Controller
         public function show(){
             return Event::orderBy('startDate','DESC')->get();
         }
+        public function show_page(){
+            return view('events.events');
+        }
 }
